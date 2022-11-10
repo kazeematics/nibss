@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    
+   <import resource="classpath*:spring-database.xml"/>
+    
+   <!-- Definition for terminalJDBCTemplate bean -->
+   <bean id="transactionJDBCTemplate" class="com.byteworks.model.transaction.TransactionJDBCTemplate">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
+   
+   <!-- Definition for terminalJDBCTemplate bean -->
+   <bean id="terminalJDBCTemplate" class="com.byteworks.model.terminal.TerminalJDBCTemplate">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
+  
+   <!-- Definition for epmsJDBCTemplate bean -->
+   <bean id="epmsJDBCTemplate" class="com.byteworks.model.epms.EpmsJDBCTemplate">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
+   
+   <!-- Definition for hostJDBCTemplate bean 
+   <bean id="hostJDBCTemplate" class="com.byteworks.model.host.HostJDBCTemplate">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
+   -->
+
+    <!--bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+    
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" /-->
+    
+    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+</beans>
