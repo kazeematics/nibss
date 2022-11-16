@@ -1099,6 +1099,7 @@ public class NIBSS {
         String mkey = ""; 
         String skey = "";
         String pkey = "";
+        String epkey = "";
         String datetime = "";
         String timeout = "";
         String currencycode = "";
@@ -1245,6 +1246,8 @@ public class NIBSS {
                 LOG.info( "f53 : "+f53);
                 LOG.info( "epk : "+epk);
                 LOG.info( "kcv : "+kcv);
+                
+                epkey = epk;
 
                 //String mkey = settings.getString("mkey", "");
                 byte[] keyB1 = Crypto.hexToByte(mkey + mkey.substring(0, 16));
@@ -1466,6 +1469,7 @@ public class NIBSS {
             obj.put("merchant_address", namelocation);
             obj.put("datetime", datetime);
             obj.put("pin_key", pkey);
+            obj.put("epin_key", epkey);
             obj.put("callhome", callhome);
             obj.put("timeout", timeout);
             //obj.put("session_key", skey);
