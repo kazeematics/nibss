@@ -1468,6 +1468,7 @@ public class NIBSS {
             obj.put("merchant_category_code", mcc);
             obj.put("merchant_address", namelocation);
             obj.put("datetime", datetime);
+            obj.put("masterkey", mkey);
             obj.put("pin_key", pkey);
             obj.put("epin_key", epkey);
             obj.put("callhome", callhome);
