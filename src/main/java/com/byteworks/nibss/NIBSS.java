@@ -25,6 +25,7 @@ import com.byteworks.model.transaction.TransactionJDBCTemplate;
 import com.byteworks.rest.EPMSRESTController;
 import com.byteworks.utils.Constants;
 import com.byteworks.utils.Crypto;
+import com.byteworks.utils.ResponseCodes;
 import com.byteworks.utils.SecureKeyProvider;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -119,8 +120,12 @@ public class NIBSS {
                 byte[] response = sendAndReceiveDataFromNIBSS(host, Integer.parseInt(port), Integer.parseInt(protocol), hexStringToBytes(packed));
                 if (response != null) {
                     LOG.info("response : " + hex(response));
-                    unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
-                    LOG.info("unpackedISO : " + unpacked);
+                    if (!hex(response).isEmpty()) {
+                        unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
+                        LOG.info("unpackedISO : " + unpacked);
+                    } else {
+                        return null;
+                    }
                 }
             } else {
                 return null;
@@ -168,8 +173,12 @@ public class NIBSS {
                 byte[] response = sendAndReceiveDataFromNIBSS(host, Integer.parseInt(port), Integer.parseInt(protocol), hexStringToBytes(packed));
                 if (response != null) {
                     LOG.info("response : " + hex(response));
-                    unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
-                    LOG.info("unpackedISO : " + unpacked);
+                    if (!hex(response).isEmpty()) {
+                        unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
+                        LOG.info("unpackedISO : " + unpacked);
+                    } else {
+                        return null;
+                    }
                 }
             } else {
                 return null;
@@ -217,8 +226,12 @@ public class NIBSS {
                 byte[] response = sendAndReceiveDataFromNIBSS(host, Integer.parseInt(port), Integer.parseInt(protocol), hexStringToBytes(packed));
                 if (response != null) {
                     LOG.info("response : " + hex(response));
-                    unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
-                    LOG.info("unpackedISO : " + unpacked);
+                    if (!hex(response).isEmpty()) {
+                        unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
+                        LOG.info("unpackedISO : " + unpacked);
+                    } else {
+                        return null;
+                    }
                 }
             } else {
                 return null;
@@ -266,8 +279,12 @@ public class NIBSS {
                 byte[] response = sendAndReceiveDataFromNIBSS(host, Integer.parseInt(port), Integer.parseInt(protocol), hexStringToBytes(packed));
                 if (response != null) {
                     LOG.info("response : " + hex(response));
-                    unpacked = iso8583.unpackEPMSISO8583Message(hex(response), key);
-                    LOG.info("unpackedISO : " + unpacked);
+                    if (!hex(response).isEmpty()) {
+                        unpacked = iso8583.unpackEPMSISO8583Message(hex(response), key);
+                        LOG.info("unpackedISO : " + unpacked);
+                    } else {
+                        return null;
+                    }
                 }
             } else {
                 return null;
@@ -318,8 +335,12 @@ public class NIBSS {
                 byte[] response = sendAndReceiveDataFromNIBSS(host, Integer.parseInt(port), Integer.parseInt(protocol), hexStringToBytes(packed));
                 if (response != null) {
                     LOG.info("response : " + hex(response));
-                    unpacked = iso8583.unpackEPMSISO8583Message(hex(response), key);
-                    LOG.info("unpackedISO : " + unpacked);
+                    if (!hex(response).isEmpty()) {
+                        unpacked = iso8583.unpackEPMSISO8583Message(hex(response), key);
+                        LOG.info("unpackedISO : " + unpacked);
+                    } else {
+                        return null;
+                    }
                 }
             } else {
                 return null;
@@ -568,8 +589,12 @@ public class NIBSS {
                     if (response.length > 12) {
                         String rmti = new String(hexStringToBytes(hex(response).substring(4, 12)));
                         if (rmti.equals("0210") || rmti.equals("0110") || rmti.equals("0130") || rmti.equals("0230") || rmti.equals("0430")) {
-                            unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
-                            LOG.info("packedFields : " + unpacked);
+                            if (!hex(response).isEmpty()) {
+                                unpacked = iso8583.unpackEPMSISO8583Message(hex(response), "");
+                                LOG.info("packedFields : " + unpacked);
+                            } else {
+                                return null;
+                            }
 
                             JsonObject jobject = null;
                             try {
@@ -1174,7 +1199,7 @@ public class NIBSS {
             else{
                 JSONObject obj = new JSONObject();
                 obj.put("response", f39);
-                obj.put("description", "Masterkey Download Failed");
+                obj.put("description", ResponseCodes.responseCodeErrorMessage(Integer.parseInt(f39)));
                 return obj.toJSONString();
             }
 
@@ -1218,7 +1243,7 @@ public class NIBSS {
             else{
                 JSONObject obj = new JSONObject();
                 obj.put("response", f39);
-                obj.put("description", "Sessionkey Download Failed");
+                obj.put("description", ResponseCodes.responseCodeErrorMessage(Integer.parseInt(f39)));
                 return obj.toJSONString();
             }
 
@@ -1265,7 +1290,7 @@ public class NIBSS {
             else{
                 JSONObject obj = new JSONObject();
                 obj.put("response", f39);
-                obj.put("description", "PINkey Download Failed");
+                obj.put("description", ResponseCodes.responseCodeErrorMessage(Integer.parseInt(f39)));
                 return obj.toJSONString();
             }
 
@@ -1448,7 +1473,7 @@ public class NIBSS {
             else{
                 JSONObject obj = new JSONObject();
                 obj.put("response", f39);
-                obj.put("description", "Parameter Download Failed");
+                obj.put("description", ResponseCodes.responseCodeErrorMessage(Integer.parseInt(f39)));
                 return obj.toJSONString();
             }
             
